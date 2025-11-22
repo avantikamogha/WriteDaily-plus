@@ -114,15 +114,17 @@ st.sidebar.info(st.session_state.daily_quote)
 inspiration_choice = st.sidebar.radio("Choose today's inspiration:", ["Theme of the Day", "Word of the Day"])
 
 # Persist inspiration
-if "inspiration" not in st.session_state:
+if "last_inspiration_choice" not in st.session_state or st.session_state.last_inspiration_choice != inspiration_choice:
     if inspiration_choice == "Theme of the Day":
         chosen = random.choice(THEMES)
         st.session_state.inspiration = chosen
         st.session_state.inspiration_full = chosen
-    else:
+    else:  # Word of the Day
         selected = random.choice(WORDS)
         st.session_state.inspiration = selected["word"]
         st.session_state.inspiration_full = f"{selected['word']} — {selected.get('meaning', '')}"
+
+    st.session_state.last_inspiration_choice = inspiration_choice
 
 inspiration = st.session_state.inspiration
 inspiration_full = st.session_state.inspiration_full
