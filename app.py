@@ -93,22 +93,27 @@ def load_journal_entries():
         return []
 
 
-# ---------------- Sidebar ----------------
+# ---------------- Sidebar / Daily settings ----------------
 st.title("✍️ WriteDaily+")
-st.sidebar.write("📅 Today:", str(datetime.date.today()))
-
-daily_quote = random.choice(QUOTES)
-st.sidebar.write("💡 Daily Quote:")
-st.sidebar.info(daily_quote)
-
-inspiration_choice = st.sidebar.radio("Choose today's inspiration:", ["Theme of the Day", "Word of the Day"])
-
-# -------- Persist inspiration across reruns --------
 today = str(datetime.date.today())
+st.sidebar.write("📅 Today:", today)
+
+# Reset session state daily
 if "stored_date" not in st.session_state or st.session_state.stored_date != today:
     st.session_state.clear()
     st.session_state.stored_date = today
 
+# Persist daily quote
+if "daily_quote" not in st.session_state:
+    st.session_state.daily_quote = random.choice(QUOTES)
+
+st.sidebar.write("💡 Daily Quote:")
+st.sidebar.info(st.session_state.daily_quote)
+
+# Inspiration selection
+inspiration_choice = st.sidebar.radio("Choose today's inspiration:", ["Theme of the Day", "Word of the Day"])
+
+# Persist inspiration
 if "inspiration" not in st.session_state:
     if inspiration_choice == "Theme of the Day":
         chosen = random.choice(THEMES)
@@ -129,16 +134,16 @@ else:
     word, meaning = inspiration_full.split("—", 1)
     st.sidebar.write("📚 Word of the Day:")
     st.sidebar.success(word.strip())
-    st.sidebar.caption(f"Meaning: {meaning.strip()}")
+    st.sidebar.caption("Meaning: " + meaning.strip())
 
 
-# -------- Load entries --------
+# ---------------- Load entries into session ----------------
 if "public_entries" not in st.session_state:
     st.session_state.public_entries = load_public_entries()
 
 journal_entries = load_journal_entries()
 
-# streak
+# Journal streak
 written_dates = sorted(list(set([e["date"] for e in journal_entries]))) if journal_entries else []
 streak = 0
 for i in range(len(written_dates)):
@@ -152,7 +157,7 @@ for i in range(len(written_dates)):
         break
 st.sidebar.write("🔥 Journal Streak:", streak, "days")
 
-# menu
+# Menu
 menu = ["Write Today", "Daily Writings Feed", "Personal Journal"]
 choice = st.sidebar.selectbox("Menu", menu)
 
@@ -171,8 +176,9 @@ if choice == "Write Today":
         if writing.strip() == "":
             st.warning("Please write something before saving.")
         else:
-            save_public_entry(today, username, str(anonymous), inspiration_choice, inspiration, inspiration_full, writing_type, writing)
-            st.session_state.public_entries = load_public_entries()  # refresh
+            save_public_entry(today, username, str(anonymous), inspiration_choice,
+                              inspiration, inspiration_full, writing_type, writing)
+            st.session_state.public_entries = load_public_entries()  # refresh feed
             st.success("Public creative writing saved!")
 
 
@@ -198,6 +204,8 @@ elif choice == "Daily Writings Feed":
 # ---------------- Personal Journal ----------------
 elif choice == "Personal Journal":
     st.header("🔐 Personal Journal (Private)")
+    st.info("Private space — visible only to you.")
+
     user = st.text_input("Enter your name to open your journal")
 
     if user:
