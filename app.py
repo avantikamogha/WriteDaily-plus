@@ -81,16 +81,27 @@ menu = ["Write Today", "Daily Writings Feed", "Personal Journal"]
 choice = st.sidebar.selectbox("Menu", menu)
 
 if choice == "Write Today":
+    username = st.text_input("Your name (optional):")
+    anonymous = st.checkbox("🕶 Publish anonymously", value=True)
+
     def save_callback(wtype, text):
         if text.strip() == "":
             st.warning("Please write something before saving.")
         else:
-            save_public_entry(PUBLIC_FILE, today, "", "Anonymous", inspiration_choice,
-                              st.session_state.inspiration, st.session_state.inspiration_full, wtype, text)
+            user_to_store = "" if anonymous else username.strip()
+            anon_flag = "True" if anonymous else "False"
+
+            save_public_entry(
+                PUBLIC_FILE, today, user_to_store, anon_flag,
+                inspiration_choice, st.session_state.inspiration,
+                st.session_state.inspiration_full, wtype, text
+            )
+
             st.session_state.public_entries = load_public_entries(PUBLIC_FILE)
             st.success("Public creative writing saved!")
 
-    write_today_ui("", st.session_state.inspiration, st.session_state.inspiration_full, save_callback)
+    write_today_ui(username, st.session_state.inspiration, st.session_state.inspiration_full, save_callback)
+
 
 elif choice == "Daily Writings Feed":
     today_public = [e for e in st.session_state.public_entries if e.get("date") == today]
