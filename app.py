@@ -80,9 +80,7 @@ def save_journal_entry(date, user, mood, text):
 def load_journal_entries():
     try:
         with open(JOURNAL_FILE, "r", encoding="utf-8") as f:
-            # Only keep rows with valid date
-            entries = [row for row in csv.DictReader(f) if "date" in row and row["date"].strip()]
-            return entries
+            return list(csv.DictReader(f))
     except:
         return []
 
@@ -106,34 +104,23 @@ st.sidebar.info(st.session_state.daily_quote)
 # Inspiration selection
 inspiration_choice = st.sidebar.radio("Choose today's inspiration:", ["Theme of the Day", "Word of the Day"])
 
-# ---------------- Daily Inspiration ----------------
-if "daily_inspiration" not in st.session_state:
-    st.session_state.daily_inspiration = {}
-
-# Only choose new inspiration if today's date isn't stored
-if today not in st.session_state.daily_inspiration:
+# Persist inspiration
+if "last_inspiration_choice" not in st.session_state or st.session_state.last_inspiration_choice != inspiration_choice:
     if inspiration_choice == "Theme of the Day":
         chosen = random.choice(THEMES)
-        st.session_state.daily_inspiration[today] = {
-            "inspiration": chosen,
-            "inspiration_full": chosen,
-            "type": "Theme"
-        }
+        st.session_state.inspiration = chosen
+        st.session_state.inspiration_full = chosen
     else:  # Word of the Day
         selected = random.choice(WORDS)
-        st.session_state.daily_inspiration[today] = {
-            "inspiration": selected["word"],
-            "inspiration_full": f"{selected['word']} — {selected.get('meaning', '')}",
-            "type": "Word"
-        }
+        st.session_state.inspiration = selected["word"]
+        st.session_state.inspiration_full = f"{selected['word']} — {selected.get('meaning', '')}"
 
-# Load today's inspiration from session_state
-inspiration_data = st.session_state.daily_inspiration[today]
-inspiration = inspiration_data["inspiration"]
-inspiration_full = inspiration_data["inspiration_full"]
+    st.session_state.last_inspiration_choice = inspiration_choice
 
-# Sidebar display
-if inspiration_data["type"] == "Theme":
+inspiration = st.session_state.inspiration
+inspiration_full = st.session_state.inspiration_full
+
+if inspiration_choice == "Theme of the Day":
     st.sidebar.write("📝 Theme of the Day:")
     st.sidebar.success(inspiration)
 else:
@@ -148,7 +135,7 @@ if "public_entries" not in st.session_state:
 
 journal_entries = load_journal_entries()
 
-# Journal streak
+# ---------------- Journal streak (fixed) ----------------
 written_dates = sorted(
     set(e["date"] for e in journal_entries if "date" in e and e["date"].strip())
 )
@@ -182,7 +169,7 @@ if choice == "Write Today":
         if writing.strip() == "":
             st.warning("Please write something before saving.")
         else:
-            save_public_entry(today, username, str(anonymous), inspiration_data["type"],
+            save_public_entry(today, username, str(anonymous), inspiration_choice,
                               inspiration, inspiration_full, writing_type, writing)
             st.session_state.public_entries = load_public_entries()  # refresh feed
             st.success("Public creative writing saved!")
@@ -199,7 +186,7 @@ elif choice == "Daily Writings Feed":
             name = "Anonymous" if e.get("anonymous", "").lower() == "true" else e.get("username", "")
             st.subheader(f"{name} — {e.get('type', '')}")
             st.caption(f"{e.get('inspiration_type')}: {e.get('inspiration')}")
-            if e.get("inspiration_type") == "Word" and "—" in e.get("inspiration_full", ""):
+            if e.get("inspiration_type") == "Word of the Day" and "—" in e.get("inspiration_full", ""):
                 _, meaning_part = e["inspiration_full"].split("—", 1)
                 st.caption("Meaning: " + meaning_part.strip())
             st.write(e.get("writing", ""))
