@@ -39,6 +39,7 @@ def personal_journal_ui(user, journal_entries, save_journal_entry_file):
     st.subheader("➕ Add a new journal entry")
     mood = st.selectbox("Mood Emoji", ["🙂", "😢", "😡", "🤩", "😐", "🤔", "😭", "🥳", "😌"])
     journal_text = st.text_area("Journal writing...")
+
     if st.button("Save Journal Entry"):
         if journal_text.strip() == "":
             st.warning("Please write something before saving.")
@@ -48,20 +49,14 @@ def personal_journal_ui(user, journal_entries, save_journal_entry_file):
 
     st.markdown("---")
     st.subheader("🗂 Your previous entries")
+
     user_entries = [e for e in journal_entries if e.get("username") == user]
 
     if not user_entries:
         st.info("No journal entries yet.")
     else:
-        for i, e in enumerate(user_entries):
-            st.write(f"📅 {e.get('date')}")
-            moods = ["🙂", "😢", "😡", "🤩", "😐", "🤔", "😭", "🥳", "😌"]
-            new_mood = st.selectbox("Mood", moods, index=moods.index(e.get("mood")) if e.get("mood") in moods else 0, key=f"m{i}")
-            new_text = st.text_area("Edit entry:", value=e.get("writing", ""), key=f"t{i}")
-
-            if st.button(f"Save Edit #{i}"):
-                e["mood"] = new_mood
-                e["writing"] = new_text
-                st.session_state.journal_entries = journal_entries
-                st.success("Journal entry updated!")
+        for e in user_entries:
+            st.write(f"📅 {e.get('date')} | Mood: {e.get('mood')}")
+            st.write(e.get("writing", ""))
             st.markdown("---")
+
