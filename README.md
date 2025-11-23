@@ -18,31 +18,36 @@ WriteDaily+ is a **Streamlit** app for daily creative writing and journaling. Us
 ```bash
 git clone https://github.com/avantikamogha/WriteDaily-plus.git
 cd WriteDaily-plus
-(Optional but recommended) Create a virtual environment:
+```
+2. (Optional but recommended) Create a virtual environment:
 
-bash
-Copy code
+```bash
 python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # macOS/Linux
-Install dependencies:
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+# source venv/bin/activate
+```
 
-bash
-Copy code
+3. Install dependencies:
+```bash
 pip install -r requirements.txt
+```
+
 🚀 Usage
+
 Run the Streamlit app:
-
-bash
-Copy code
+```bash
 streamlit run app.py
-Open the URL provided by Streamlit in your browser 🌐
+```
 
-Use the sidebar to select daily inspiration, navigate the menu, and track your journal streak 🔥
+Open the URL provided by Streamlit in your browser 🌐.
 
+Use the sidebar to select daily inspiration, navigate the menu, and track your journal streak 🔥.
+
+```markdown
 📂 Project Structure
-bash
-Copy code
+```text
 WriteDaily-plus/
 ├─ app.py          # Main Streamlit app
 ├─ config.py       # Paths and constants
@@ -52,13 +57,37 @@ WriteDaily-plus/
 ├─ assets/         # Quotes, themes, and words
 ├─ requirements.txt
 └─ README.md
+```
+
+
 🤝 Contributing
-Create a branch (git checkout -b feature-name) 🌿
+
+Create a branch:
+```
+git checkout -b feature-name
+```
 
 Make your changes ✨
 
-Commit (git commit -am 'Add new feature') 💾
+Commit your changes:
+```
+git commit -am 'Add new feature'
+```
 
-Push to branch (git push origin feature-name) ⬆️
+Push to your branch:
+```
+git push origin feature-name
+```
 
 Open a Pull Request 🔀
+
+Make sure all changes are tested before submitting a PR.
+
+
+📜 License
+
+This project is licensed under the MIT License. See the `[LICENSE](LICENSE)` file for details.
+
+💬 Contact
+
+For questions or feedback, reach out to [https://github.com/avantikamogha]
