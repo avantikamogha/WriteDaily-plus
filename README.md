@@ -1,18 +1,20 @@
 # ✍️ WriteDaily+
 
-Beginner-friendly journaling & creative writing app built with Streamlit.
+WriteDaily+ is a **Streamlit** app for daily creative writing and journaling. Users can write **public creative pieces** or maintain a **private personal journal**. Each day has a **theme** or **word of the day** as inspiration.  
 
-## Features
-- Choose **Theme of the Day** or **Word of the Day (with meaning)** for public writing.
-- Public submissions can be posted anonymously.
-- Separate **Personal Journal** mode (private) with mood selector and edit capability.
-- Daily motivational quote in the sidebar.
-- CSV-based local storage:
-  - `data/public_entries.csv` (public creative writing)
-  - `data/journal_entries.csv` (private journal)
-- `assets/` contains `quotes.txt`, `themes.txt`, and `words.csv`.
+## 🌟 Features
 
-## Run locally
-1. Install dependencies:
+- 🎨 Daily inspiration: **Theme of the Day** or **Word of the Day**
+- 📝 Public creative writing submissions
+- 🔐 Personal private journal with **mood tracking**
+- 🔥 Journal streak counter
+- 💡 Daily quote displayed in the sidebar
+- ✏️ Supports editing past journal entries
+
+## ⚙️ Installation
+
+1. Clone the repository:
+
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/avantikamogha/WriteDaily-plus
+cd WriteDaily-plus
