@@ -6,12 +6,12 @@ WriteDaily+ is a **Streamlit** app for daily creative writing and journaling. Us
 
 - 🎨 Daily inspiration: **Theme of the Day** or **Word of the Day**
 - 📝 Public creative writing submissions
-- 🔐 Personal private journal with **mood tracking**
+- 🔐 Personal private journal with mood tracking
 - 🔥 Journal streak counter
 - 💡 Daily quote displayed in the sidebar
 
 
-🚀 Usage
+## 🚀 Usage
 You can use the app immediately via the direct deployment link: [https://bupdosqhhgmv7kqrhdku6q.streamlit.app/] 🌐
 
 Alternatively, to run the application locally: Run the Streamlit app:
