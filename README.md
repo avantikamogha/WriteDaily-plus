@@ -11,6 +11,15 @@ WriteDaily+ is a **Streamlit** app for daily creative writing and journaling. Us
 - 💡 Daily quote displayed in the sidebar
 
 
+🚀 Usage
+You can use the app immediately via the direct deployment link: [https://bupdosqhhgmv7kqrhdku6q.streamlit.app/] 🌐
+
+Alternatively, to run the application locally: Run the Streamlit app:
+```
+streamlit run app.py
+```
+Open the URL provided by Streamlit in your browser (usually http://localhost:8501). Use the sidebar to select daily inspiration, navigate the menu, and track your journal streak 🔥.
+
 ## ⚙️ Installation
 
 1. Clone the repository:
