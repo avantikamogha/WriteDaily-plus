@@ -9,7 +9,7 @@ WriteDaily+ is a **Streamlit** app for daily creative writing and journaling. Us
 - 🔐 Personal private journal with **mood tracking**
 - 🔥 Journal streak counter
 - 💡 Daily quote displayed in the sidebar
-- ✏️ Supports editing past journal entries
+
 
 ## ⚙️ Installation
 
